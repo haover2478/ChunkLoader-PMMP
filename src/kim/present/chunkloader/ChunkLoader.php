@@ -33,15 +33,17 @@ use kim\present\chunkloader\data\ChunkDataMap;
 use kim\present\chunkloader\lang\PluginLang;
 use kim\present\chunkloader\level\PluginChunkLoader;
 use kim\present\chunkloader\task\CheckUpdateAsyncTask;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
-use pocketmine\command\PluginCommand;
+use pocketmine\command\{
+	Command, CommandSender, PluginCommand
+};
 use pocketmine\level\Level;
 use pocketmine\nbt\BigEndianNBTStream;
 use pocketmine\nbt\tag\{
 	CompoundTag, ListTag
 };
-use pocketmine\permission\Permission;
+use pocketmine\permission\{
+	Permission, PermissionManager
+};
 use pocketmine\plugin\PluginBase;
 
 class ChunkLoader extends PluginBase{
@@ -137,7 +139,7 @@ class ChunkLoader extends PluginBase{
 		];
 
 		//Load permission's default value from config
-		$permissions = $this->getServer()->getPluginManager()->getPermissions();
+		$permissions = PermissionManager::getInstance()->getPermissions();
 		$defaultValue = $config->getNested("permission.main");
 		if($defaultValue !== null){
 			$permissions["chunkloader.cmd"]->setDefault(Permission::getByName($config->getNested("permission.main")));
